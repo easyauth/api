@@ -47,12 +47,12 @@ code, as indicated by the value of ``1`` in ``"token-format"``. Other token form
 +---------------+------------------------------------------------+-------------+
 | 200           |                                                | Indicates   |
 |               | ::                                             | that the    |
-|               |                                                | provided    |
-|               |   {                                            | hash is no  |
-|               |     "hash":The hash of the public key,         | longer valid|
-|               |     "status":"revoked",                        | and has been|
-|               |     "token":HMAC-SHA256(secret,hash+uid+nonce),| revoked.    |
-|               |     "token-format": 1                          |             |
+|               |                                                | certificate |
+|               |   {                                            | with this   |
+|               |     "hash":The hash of the public key,         | hash is no  |
+|               |     "status":"revoked",                        | longer valid|
+|               |     "token":HMAC-SHA256(secret,hash+uid+nonce),| and has been|
+|               |     "token-format": 1                          | revoked.    |
 |               |   }                                            |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
