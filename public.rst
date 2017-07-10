@@ -2,8 +2,11 @@
 easyauth Public API
 ===================
 
-This document describes the API for validating users' public keys. It has one
+This document describes the API for validating users' public keys. It currently has one
 method.
+
+user
+####
 
 validate
 ++++++++
