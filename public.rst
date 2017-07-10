@@ -2,8 +2,8 @@
 easyauth Public API
 ===================
 
-This document describes the API for validating users' public keys. It currently has one
-method.
+This document describes the API for validating users' public keys. It currently
+has one method.
 
 user
 ####
@@ -27,8 +27,8 @@ Request
 
 Response
 --------
-All responses except for 400 Bad Request include a HMAC-SHA256 authentication code. This MUST be validated
-by the client. All responses are in JSON format.
+All responses except for 400 Bad Request include a HMAC-SHA256 authentication
+code, as indicated by the value of ``1`` in ``"token-format"``. Other token formats may be implemented in the future. This MUST be validated by the client. All responses are in JSON format.
 
 +---------------+------------------------------------------------+
 | Response Code | Response                                       |
@@ -40,7 +40,8 @@ by the client. All responses are in JSON format.
 |               |     "hash":The hash of the public key,         |
 |               |     ”status”:”success”,                        |
 |               |     "uid":The user's unique ID,                |
-|               |     "token":HMAC-SHA256(secret,hash+uid+nonce) |
+|               |     "token":HMAC-SHA256(secret,hash+uid+nonce),|
+|               |     "token-format": 1                          |
 |               |   }                                            |
 |               |                                                |
 +---------------+------------------------------------------------+
@@ -51,7 +52,8 @@ by the client. All responses are in JSON format.
 |               |     "hash":The hash of the public key,         |
 |               |     "status":"error",                          |
 |               |     "reason":"Invalid API key",                |
-|               |     "token":"HMAC-SHA256(secret,hash+nonce)    |
+|               |     "token":"HMAC-SHA256(secret,hash+nonce),   |
+|               |     "token-format": 1                          |
 |               |   }                                            |
 |               |                                                |
 +---------------+------------------------------------------------+
