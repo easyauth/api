@@ -32,7 +32,7 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           | ::                                             | Returns a   |
+| 200           |::                                              | Returns a   |
 |               |                                                | list of     |
 |               | {                                              | users.      |
 |               |     "status": "success",                       |             |
@@ -50,20 +50,20 @@ Response
 |               |                                                |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 403           | ::                                             | Indicates   |
+| 403           |::                                              | Indicates   |
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status": "error",                         | authorized  |
 |               |     "reason": "Unauthroized"                   | to make this|
 |               | }                                              | request.    |
 +---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               |   {                                            | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
 |               |   }                                            |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
 
@@ -91,28 +91,28 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 202           | ::                                             | Indicates   |
+| 202           |::                                              | Indicates   |
 |               |                                                | the user was|
 |               | {                                              | created and |
 |               |     "status": "queued",                        | is awaiting |
 |               |     "id": New user's ID                        | email       |
 |               | }                                              | validation. |
 +---------------+------------------------------------------------+-------------+
-| 403           | ::                                             | Indicates   |
+| 403           |::                                              | Indicates   |
 |               |                                                | the user is |
 |               | {                                              | logged in   |
 |               |     "status": "error",                         | and cannot  |
 |               |     "reason": "Already authenticated"          | create a    |
 |               | }                                              | new user.   |
 +---------------+------------------------------------------------+-------------+
-| 409           | ::                                             | Indicates   |
+| 409           |::                                              | Indicates   |
 |               |                                                | a user with |
 |               | {                                              | that email  |
 |               |     "status": "error",                         | already     |
 |               |     "reason": "Duplicate email"                | exists.     |
 |               | }                                              |             |
 +---------------+------------------------------------------------+-------------+
-| 422           | ::                                             | Indicates   |
+| 422           |::                                              | Indicates   |
 |               |                                                | an error in |
 |               | {                                              | the user's  |
 |               |     "status": "error",                         | input. The  |
@@ -120,13 +120,13 @@ Response
 |               | }                                              | provide more|
 |               |                                                | information.|
 +---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               |   {                                            | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
 |               |   }                                            |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
 user
@@ -154,7 +154,7 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           | ::                                             | The user's  |
+| 200           |::                                              | The user's  |
 |               |                                                | information.|
 |               | {                                              |             |
 |               |     "status": "success",                       |             |
@@ -164,28 +164,31 @@ Response
 |               |     "admin": true or false,                    |             |
 |               |     "certificate": "url to current certificate"|             |
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 403           | ::                                             | Indicates   |
+| 403           |::                                              | Indicates   |
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status": "error",                         | authorized  |
 |               |     "reason:" "Unauthorized"                   | to make this|
 |               | }                                              | request.    |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 404           | ::                                             | Indicates   |
+| 404           |::                                              | Indicates   |
 |               |                                                | no such user|
 |               | {                                              | exists.     |
 |               |     "status": "error",                         |             |
 |               |     "reason": "No such user"                   |             |
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               |   {                                            | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
 |               |   }                                            |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
 PATCH
@@ -218,41 +221,45 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           | ::                                             | Indicates   |
+| 200           |::                                              | Indicates   |
 |               |                                                | the user's  |
 |               | {                                              | information |
 |               |     "status": "success",                       | was updated |
 |               |     "user": "url to GET /user/id"              | sucessfully.|
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 202           | ::                                             | Indicates   |
+| 202           |::                                              | Indicates   |
 |               |                                                | the user was|
 |               | {                                              | updated and |
 |               |     "status": "queued",                        | is awaiting |
 |               |     "id": New user's ID                        | email       |
 |               | }                                              | validation. |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 403           | ::                                             | Indicates   |
+| 403           |::                                              | Indicates   |
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status": "error",                         | authorized  |
 |               |     "reason:" "Unauthorized"                   | to make this|
 |               | }                                              | request.    |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 404           | ::                                             | Indicates   |
+| 404           |::                                              | Indicates   |
 |               |                                                | no such user|
 |               | {                                              | exists.     |
 |               |     "status": "error",                         |             |
 |               |     "reason": "No such user"                   |             |
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               |   {                                            | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
 |               |   }                                            |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
 DELETE
@@ -277,34 +284,37 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           | ::                                             | Indicates   |
+| 200           |::                                              | Indicates   |
 |               |                                                | the user    |
 |               | {                                              | was deleted |
 |               |     "status": "success",                       | sucessfully.|
 |               |     "user": "url to GET /user/id"              |             |
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 403           | ::                                             | Indicates   |
+| 403           |::                                              | Indicates   |
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status": "error",                         | authorized  |
 |               |     "reason:" "Unauthorized"                   | to make this|
 |               | }                                              | request.    |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 404           | ::                                             | Indicates   |
+| 404           |::                                              | Indicates   |
 |               |                                                | no such user|
 |               | {                                              | exists.     |
 |               |     "status": "error",                         |             |
 |               |     "reason": "No such user"                   |             |
 |               | }                                              |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               |   {                                            | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
 |               |   }                                            |             |
+|               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
 certificates
