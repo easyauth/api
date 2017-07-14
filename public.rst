@@ -27,8 +27,10 @@ Request
 
 Response
 --------
-All responses except for 400 Bad Request and 403 Forbidden include a HMAC-SHA256 authentication
-code, as indicated by the value of ``1`` in ``"token-format"``. Other token formats may be implemented in the future. This MUST be validated by the client. All responses are in JSON format.
+All responses except for 400 Bad Request and 403 Forbidden include a
+HMAC-SHA256 authentication code, as indicated by the value of ``1`` in
+``"token-format"``. Other token formats may be implemented in the future. This
+MUST be validated by the client. All responses are in JSON format.
 
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
