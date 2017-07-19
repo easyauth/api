@@ -473,12 +473,21 @@ Response
 |               |                                                | data about  |
 |               | {                                              | the         |
 |               |     "status":"success",                        | certificate.|
-|               |     "certificate":{                            |             |
-|               |         "serial":serial,                       |             |
-|               |         "hash":hash,                           |             |
-|               |         "valid":true or false,                 |             |
+|               |     "certificate":{                            | Includes    |
+|               |         "serial":serial,                       | the public  |
+|               |         "hash":hash,                           | key in JWK_ |
+|               |         "valid":true or false,                 | format.     |
 |               |         "valid_until":date,                    |             |
 |               |         "user":"GET /user/id"                  |             |
+|               |     }                                          |             |
+|               |     "certificate-jwk":{                        |             |
+|               |         "kty":"RSA",                           |             |
+|               |         "kid":serial,                          |             |
+|               |         "n":modulo,                            |             |
+|               |         "e":exponent,                          |             |
+|               |         "x5c":base64 certificate chain,        |             |
+|               |         "x5t":thumbprint,                      |             |
+|               |         "x5t#S256":SHA-256 thumbprint          |             |
 |               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
@@ -507,6 +516,8 @@ Response
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
+
+.. _JWK: https://tools.ietf.org/html/rfc7517/
 
 PATCH
 +++++
