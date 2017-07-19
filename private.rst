@@ -4,8 +4,9 @@ easyauth Private API
 
 This document describes the internal API used for communication between the
 backend server and frontend website. This is intended for XHR requests between
-the client and the backend, with authentication done through cookies. In the
-future, this may be opened up for public access; as such, it is pseudo-RESTful.
+the client and the backend, with authentication done through an API key set by
+the frontend. In the future, this may be opened up for public access; as such,
+calls which will only be accessible from the frontend will be so noted.
 
 In this document, a URL will be provided for each request. Any parameters that
 are part of the URL will be indicated with angle brackets and detailed in the
@@ -28,6 +29,8 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | start     | The starting user ID.                                            |
 +-----------+------------------------------------------------------------------+
 
@@ -77,7 +80,7 @@ Response
 POST
 ++++
 
-Creates a new user. Requires the user to not be authenticated.
+Creates a new user. Requires an API key not associated with a user.
 
 Request
 -------
@@ -87,6 +90,8 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | email     | The email address for the new user.                              |
 +-----------+------------------------------------------------------------------+
 | name      | The name of the new user.                                        |
@@ -166,6 +171,8 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | id        | The ID of the user being looked up. If not specified, returns    |
 |           | information for the authenticated user.                          |
 +-----------+------------------------------------------------------------------+
@@ -218,8 +225,12 @@ Response
 PATCH
 +++++
 
-Allows a user to update their own information. All parameters except ``id`` and
-``password`` are optional, however at least one other *must* be provided.
+Allows a user to update their own information. All parameters except ``id`` are
+optional, however at least one other *must* be provided.
+
+Should API access become unrestricted, updating a user's information will not be
+possible except from the frontend (or another official client). Validating a
+user, however, will be possible from third-party clients.
 
 Request
 -------
@@ -229,10 +240,9 @@ Request
 +-----------------+------------------------------------------------------------+
 | Parameter       | Description                                                |
 +=================+============================================================+
-| id              | The ID of the user being modified.                         |
+| apikey          | The API key provided.                                      |
 +-----------------+------------------------------------------------------------+
-| password        | The user's password, for confirmation. Not required to     |
-|                 | validate a user; required for everything else.             |
+| id              | The ID of the user being modified.                         |
 +-----------------+------------------------------------------------------------+
 | new_email       | The user's new email address (if specified).               |
 +-----------------+------------------------------------------------------------+
@@ -305,6 +315,9 @@ DELETE
 
 Allows a user to be deleted.
 
+Should API access become unrestricted, it will not be possible to delete a user
+except from the frontend.
+
 Request
 -------
 
@@ -313,6 +326,8 @@ Request
 +--------------+---------------------------------------------------------------+
 | Parameter    | Description                                                   |
 +==============+===============================================================+
+| apikey       | The API key provided.                                         |
++--------------+---------------------------------------------------------------+
 | id           | The ID of the user being deleted.                             |
 +--------------+---------------------------------------------------------------+
 | password     | The user's password, for confirmation.                        |
@@ -389,6 +404,8 @@ Request
 +--------------+---------------------------------------------------------------+
 | Parameter    | Description                                                   |
 +==============+===============================================================+
+| apikey       | The API key provided.                                         |
++--------------+---------------------------------------------------------------+
 | user_id      | The ID of the user requesting a new certificate.              |
 +--------------+---------------------------------------------------------------+
 | csr          | The certificate signing request for the requested certificate.|
@@ -459,6 +476,8 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | serial    | The serial of the certificate being looked up. If not specified, |
 |           | returns information about the authenticated user's certificate.  |
 +-----------+------------------------------------------------------------------+
@@ -533,11 +552,11 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | serial    | The serial of the certificate being revoked.                     |
 +-----------+------------------------------------------------------------------+
 | valid     | The validity to set. Must be false.                              |
-+-----------+------------------------------------------------------------------+
-| password  | The user's password, for validation.                             |
 +-----------+------------------------------------------------------------------+
 
 Response
@@ -608,6 +627,8 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
+| apikey    | The API key provided.                                            |
++-----------+------------------------------------------------------------------+
 | serial    | The serial of the certificate being revoked.                     |
 +-----------+------------------------------------------------------------------+
 
