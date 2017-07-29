@@ -14,7 +14,7 @@ parameter table. All other parameters must be provided via the proper request
 method.
 
 
-..contents:: Table of Contents
+.. contents:: Table of Contents
 
 users
 #####
