@@ -13,6 +13,9 @@ are part of the URL will be indicated with angle brackets and detailed in the
 parameter table. All other parameters must be provided via the proper request
 method.
 
+
+..contents:: Table of Contents
+
 users
 #####
 
@@ -47,7 +50,7 @@ Response
 |               |     "users": [{                                |             |
 |               |         "id":id,                               |             |
 |               |         "name":"name",                         |             |
-|               |         "details":"url to GET /user/id"        |             |
+|               |         "details":"url to GET /users/id"       |             |
 |               |         }]                                     |             |
 |               | }                                              |             |
 |               |                                                |             |
@@ -80,7 +83,7 @@ Response
 POST
 ++++
 
-Creates a new user. Requires an API key not associated with a user.
+Creates a new user.
 
 Request
 -------
@@ -90,8 +93,6 @@ Request
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
 +===========+==================================================================+
-| apikey    | The API key provided.                                            |
-+-----------+------------------------------------------------------------------+
 | email     | The email address for the new user.                              |
 +-----------+------------------------------------------------------------------+
 | name      | The name of the new user.                                        |
@@ -166,7 +167,7 @@ making the request is requesting their own information or is an admin.
 Request
 -------
 
-**URL:** ``GET /user/<id>``
+**URL:** ``GET /users/<id>``
 
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
@@ -192,7 +193,7 @@ Response
 |               |         "name":"User's name",                  |             |
 |               |         "email":"User's email",                |             |
 |               |         "admin": true or false,                |             |
-|               |         "certificate":"GET /certificate/serial"|             |
+|               |         "certificate":"URL to certificate"     |             |
 |               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
@@ -235,7 +236,7 @@ user, however, will be possible from third-party clients.
 Request
 -------
 
-**URL:** ``PATCH /user/<id>``
+**URL:** ``PATCH /users/<id>``
 
 +-----------------+------------------------------------------------------------+
 | Parameter       | Description                                                |
@@ -265,7 +266,7 @@ Response
 |               |                                                | the user's  |
 |               | {                                              | information |
 |               |     "status":"success",                        | was updated |
-|               |     "user":"url to GET /user/id"               | sucessfully.|
+|               |     "user":"url to GET /users/id"              | sucessfully.|
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -321,7 +322,7 @@ except from the frontend.
 Request
 -------
 
-**URL:** ``DELETE /user/<id>``
+**URL:** ``DELETE /users/<id>``
 
 +--------------+---------------------------------------------------------------+
 | Parameter    | Description                                                   |
@@ -343,7 +344,7 @@ Response
 |               |                                                | the user    |
 |               | {                                              | was deleted |
 |               |     "status":"success",                        | sucessfully.|
-|               |     "user":"url to GET /user/id"               |             |
+|               |     "user":"url to GET /users/id"              |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -471,7 +472,7 @@ making the request is requesting their own information or is an admin.
 Request
 -------
 
-**URL:** ``GET /certificate/<serial>``
+**URL:** ``GET /certificates/<serial>``
 
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
@@ -497,7 +498,7 @@ Response
 |               |         "hash":hash,                           | key in JWK_ |
 |               |         "valid":true or false,                 | format.     |
 |               |         "valid_until":date,                    |             |
-|               |         "user":"GET /user/id"                  |             |
+|               |         "user":"GET /users/id"                 |             |
 |               |     }                                          |             |
 |               |     "certificate-jwk":{                        |             |
 |               |         "kty":"RSA",                           |             |
@@ -547,7 +548,7 @@ cannot be reinstated once it is revoked.
 Request
 -------
 
-**URL:** ``PATCH /certificate/<serial>``
+**URL:** ``PATCH /certificates/<serial>``
 
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
@@ -622,7 +623,7 @@ Deletes a certificate. Requires admin privileges.
 Request
 -------
 
-**URL:** ``DELETE /certificate/<serial>``
+**URL:** ``DELETE /certificates/<serial>``
 
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
@@ -642,7 +643,7 @@ Response
 |               |                                                | the         |
 |               | {                                              | certificate |
 |               |     "status":"success",                        | was deleted |
-|               |     "user":"url to GET /user/id"               | sucessfully.|
+|               |     "user":"url to GET /users/id"              | sucessfully.|
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
