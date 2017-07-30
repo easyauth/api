@@ -19,6 +19,56 @@ method.
 login
 #####
 
+GET
++++
+
+Extends the validity of the user's API key.
+
+Should API access become unrestricted, this method of authentication will not be
+supported and will be restricted to the frontend server.
+
+Request
+-------
+
+**URL:** ``GET /login``
+
++-----------+------------------------------------------------------------------+
+| Parameter | Description                                                      |
++===========+==================================================================+
+| apikey    | The user's API key.                                              |
++-----------+------------------------------------------------------------------+
+
+Response
+--------
+
++---------------+------------------------------------------------+-------------+
+| Response Code | Response                                       | Description |
++===============+================================================+=============+
+| 200           |::                                              | Extends the |
+|               |                                                | API key for |
+|               | {                                              | the user.   |
+|               |     "status":"success",                        |             |
+|               |     "expires":the ISO 8601 date of expiry      |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 401           |::                                              | Incorrect   |
+|               |                                                | email or    |
+|               | {                                              | password.   |
+|               |     "status":"error",                          |             |
+|               |     "error":"Incorrect username or password"   |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               | {                                              | request.    |
+|               |     "status":"error",                          |             |
+|               |     "reason":"Bad request"                     |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+
 POST
 ++++
 
@@ -30,6 +80,8 @@ supported and will be restricted to the frontend server.
 
 Request
 -------
+
+**URL:** ``POST /login``
 
 +-----------+------------------------------------------------------------------+
 | Parameter | Description                                                      |
