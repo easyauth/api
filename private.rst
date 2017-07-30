@@ -16,6 +16,61 @@ method.
 
 .. contents:: Table of Contents
 
+login
+#####
+
+POST
+++++
+
+Validates a provided username and password, returning an API key associated with
+the user if successful.
+
+Should API access become unrestricted, this method of authentication will not be
+supported and will be restricted to the frontend server.
+
+Request
+-------
+
++-----------+------------------------------------------------------------------+
+| Parameter | Description                                                      |
++===========+==================================================================+
+| email     | The email of the user logging in.                                |
++-----------+------------------------------------------------------------------+
+| password  | The password of the user logging in.                             |
++-----------+------------------------------------------------------------------+
+
+Response
+--------
+
++---------------+------------------------------------------------+-------------+
+| Response Code | Response                                       | Description |
++===============+================================================+=============+
+| 200           |::                                              | Provides an |
+|               |                                                | API key for |
+|               | {                                              | the user.   |
+|               |     "status":"success",                        |             |
+|               |     "apikey":the API key,                      |             |
+|               |     "expires":the ISO 8601 date of expiry      |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 401           |::                                              | Incorrect   |
+|               |                                                | email or    |
+|               | {                                              | password.   |
+|               |     "status":"error",                          |             |
+|               |     "error":"Incorrect username or password"   |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               | {                                              | request.    |
+|               |     "status":"error",                          |             |
+|               |     "reason":"Bad request"                     |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+
 users
 #####
 
