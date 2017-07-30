@@ -101,6 +101,7 @@ Response
 |               |                                                | API key for |
 |               | {                                              | the user.   |
 |               |     "status":"success",                        |             |
+|               |     "user":"url to GET /user/id",              |             |
 |               |     "apikey":the API key,                      |             |
 |               |     "expires":the ISO 8601 date of expiry      |             |
 |               | }                                              |             |
