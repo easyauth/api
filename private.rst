@@ -158,7 +158,7 @@ Response
 |               |     "users": [{                                |             |
 |               |         "id":id,                               |             |
 |               |         "name":"name",                         |             |
-|               |         "details":"url to GET /users/id"       |             |
+|               |         "url":"url to GET /users/id"           |             |
 |               |         }]                                     |             |
 |               | }                                              |             |
 |               |                                                |             |
@@ -374,7 +374,9 @@ Response
 |               |                                                | the user's  |
 |               | {                                              | information |
 |               |     "status":"success",                        | was updated |
-|               |     "user":"url to GET /users/id"              | sucessfully.|
+|               |     "user":{                                   | sucessfully.|
+|               |         user details                           |             |
+|               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -382,15 +384,17 @@ Response
 |               |                                                | the user was|
 |               | {                                              | updated and |
 |               |     "status":"queued"                          | is awaiting |
-|               | }                                              | email       |
-|               |                                                | validation. |
+|               |     "user": {                                  | email       |
+|               |         user details                           | validation. |
+|               |     }                                          |             |
+|               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 | 401           |::                                              | Indicates   |
 |               |                                                | the supplied|
-|               | {                                              | password was|
+|               | {                                              | API key was |
 |               |     "status":"error",                          | incorrect.  |
-|               |     "reason":"Incorrect password"              |             |
+|               |     "reason":"Unauthorized"                    |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -398,7 +402,7 @@ Response
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status":"error",                          | authorized  |
-|               |     "reason:" "Unauthorized"                   | to make this|
+|               |     "reason:" "Forbidden"                      | to make this|
 |               | }                                              | request.    |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -448,19 +452,19 @@ Response
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           |::                                              | Indicates   |
+| 204           |N/A                                             | Indicates   |
 |               |                                                | the user    |
-|               | {                                              | was deleted |
-|               |     "status":"success",                        | sucessfully.|
-|               |     "user":"url to GET /users/id"              |             |
-|               | }                                              |             |
+|               |                                                | was deleted |
+|               |                                                | sucessfully.|
+|               |                                                |             |
+|               |                                                |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 | 401           |::                                              | Indicates   |
 |               |                                                | the supplied|
-|               | {                                              | password was|
+|               | {                                              | API key was |
 |               |     "status":"error",                          | incorrect.  |
-|               |     "reason":"Incorrect password"              |             |
+|               |     "reason":"Unauthorized"                    |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -468,7 +472,7 @@ Response
 |               |                                                | the user is |
 |               | {                                              | not         |
 |               |     "status":"error",                          | authorized  |
-|               |     "reason:" "Unauthorized"                   | to make this|
+|               |     "reason:" "Forbidden"                      | to make this|
 |               | }                                              | request.    |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -530,7 +534,9 @@ Response
 |               |                                                | certificate |
 |               | {                                              | was signed. |
 |               |     "status":"success",                        |             |
-|               |     "url":"URL to the new certificate"         |             |
+|               |     "certificate": {                           |             |
+|               |         certificate details                    |             |
+|               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -587,8 +593,7 @@ Request
 +===========+==================================================================+
 | apikey    | The API key provided.                                            |
 +-----------+------------------------------------------------------------------+
-| serial    | The serial of the certificate being looked up. If not specified, |
-|           | returns information about the authenticated user's certificate.  |
+| serial    | The serial of the certificate being looked up.                   |
 +-----------+------------------------------------------------------------------+
 
 Response
@@ -601,21 +606,12 @@ Response
 |               |                                                | data about  |
 |               | {                                              | the         |
 |               |     "status":"success",                        | certificate.|
-|               |     "certificate":{                            | Includes    |
-|               |         "serial":serial,                       | the public  |
-|               |         "hash":hash,                           | key in JWK_ |
-|               |         "valid":true or false,                 | format.     |
+|               |     "certificate":{                            |             |
+|               |         "serial":serial,                       |             |
+|               |         "active":true or false,                |             |
 |               |         "valid_until":date,                    |             |
-|               |         "user":"GET /users/id"                 |             |
-|               |     }                                          |             |
-|               |     "certificate-jwk":{                        |             |
-|               |         "kty":"RSA",                           |             |
-|               |         "kid":serial,                          |             |
-|               |         "n":modulo,                            |             |
-|               |         "e":exponent,                          |             |
-|               |         "x5c":base64 certificate chain,        |             |
-|               |         "x5t":thumbprint,                      |             |
-|               |         "x5t#S256":SHA-256 thumbprint          |             |
+|               |         "user":"GET /users/id",                |             |
+|               |         "download": URL to download PEM        |             |
 |               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
@@ -644,8 +640,6 @@ Response
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-
-.. _JWK: https://tools.ietf.org/html/rfc7517/
 
 PATCH
 +++++
@@ -679,6 +673,9 @@ Response
 |               |                                                | successful  |
 |               | {                                              | revocation. |
 |               |     "status":"success",                        |             |
+|               |     "certificate": {                           |             |
+|               |         certificate details                    |             |
+|               |     }                                          |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
@@ -686,15 +683,15 @@ Response
 |               |                                                | ``valid``   |
 |               | {                                              | was set to  |
 |               |     "status":"error",                          | true in the |
-|               |     "reason":"Cannot unrevoke a certificate"   | request.    |
+|               |     "reason":"Invalid parameters"              | request.    |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 | 401           |::                                              | Indicates   |
 |               |                                                | the supplied|
-|               | {                                              | password was|
+|               | {                                              | API key was |
 |               |     "status":"error",                          | incorrect.  |
-|               |     "reason":"Incorrect password"              |             |
+|               |     "reason":"Unauthorized"                    |             |
 |               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
