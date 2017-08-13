@@ -2,90 +2,145 @@
 easyauth Public API
 ===================
 
-This document describes the API for validating users' public keys. It currently
-has one method.
+The public API is just a modification of the private API: it uses the same endpoints, but operates differently.
 
-certificate
+user
 ####
 
-validate
-++++++++
+GET
++++
+
+Returns details about a single user.
 
 Request
 -------
-+--------+-----------+-----------------------------------------------------+
-| Method | Parameter | Description                                         |
-+========+===========+=====================================================+
-| HEAD   | key       | Your API key.                                       |
-+--------+-----------+-----------------------------------------------------+
-| GET    | hash      | Hash of the key being validated.                    |
-+--------+-----------+-----------------------------------------------------+
-| GET    | timestamp | The time of the request as a UNIX epoch time.       |
-+--------+-----------+-----------------------------------------------------+
-| GET    | nonce     | A securely generated, unique, 32-bit random number. |
-+--------+-----------+-----------------------------------------------------+
+
+**URL:** ``GET /users/<id>``
+
++-----------+------------------------------------------------------------------+
+| Parameter | Description                                                      |
++===========+==================================================================+
+| apikey    | Your public API key.                                             |
++-----------+------------------------------------------------------------------+
+| id        | The ID of the user being looked up.                              |
++-----------+------------------------------------------------------------------+
+| nonce     | A cryptographic nonce used to validate response hmac.            |
++-----------+------------------------------------------------------------------+
+| hmac      | ``hmac-sha256(secret_key, concatenate(nonce, id)``               |
++-----------+------------------------------------------------------------------+
 
 Response
 --------
-All responses except for 400 Bad Request and 403 Forbidden include a
-HMAC-SHA256 authentication code, as indicated by the value of ``1`` in
-``"token-format"``. Other token formats may be implemented in the future. This
-MUST be validated by the client. All responses are in JSON format.
 
 +---------------+------------------------------------------------+-------------+
 | Response Code | Response                                       | Description |
 +===============+================================================+=============+
-| 200           |                                                | Indicates a |
-|               | ::                                             | successful  |
-|               |                                                | request.    |
-|               |   {                                            |             |
-|               |     "hash":The hash of the public key,         |             |
+| 200           |::                                              | The user's  |
+|               |                                                | information.|
+|               | {                                              |             |
 |               |     "status":"success",                        |             |
-|               |     "uid":The user's unique ID,                |             |
-|               |     "token":HMAC-SHA256(secret,hash+uid+nonce),|             |
-|               |     "token-format": 1                          |             |
-|               |   }                                            |             |
+|               |     "user":{                                   |             |
+|               |         "id": ID,                              |             |
+|               |         "name":"User's name",                  |             |
+|               |         "email":"User's email",                |             |
+|               |         "admin": true or false,                |             |
+|               |         "certificate":"URL to certificate"     |             |
+|               |     },                                         |             |
+|               |     "hmac":hmac-sha256(secret_key, concatenate(|             |
+|               |                       nonce, id, name, email)) |             |
+|               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 200           |                                                | Indicates   |
-|               | ::                                             | that the    |
-|               |                                                | certificate |
-|               |   {                                            | with this   |
-|               |     "hash":The hash of the public key,         | hash is no  |
-|               |     "status":"revoked",                        | longer valid|
-|               |     "token":HMAC-SHA256(secret,hash+uid+nonce),| and has been|
-|               |     "token-format": 1                          | revoked.    |
-|               |   }                                            |             |
+| 401           |::                                              | Indicates   |
+|               |                                                | the user is |
+|               | {                                              | not         |
+|               |     "status":"error",                          | authorized  |
+|               |     "reason":"Unauthorized"                    | to make this|
+|               | }                                              | request.    |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 403           |                                                | Indicates an|
-|               | ::                                             | API key was |
-|               |                                                | provided but|
-|               |   {                                            | is invalid. |
-|               |     "hash":The hash of the public key,         |             |
+| 404           |::                                              | Indicates   |
+|               |                                                | no such user|
+|               | {                                              | exists.     |
 |               |     "status":"error",                          |             |
-|               |     "reason":"Invalid API key",                |             |
-|               |   }                                            |             |
+|               |     "reason":"No such user"                    |             |
+|               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
-| 404           |                                                | Indicates no|
-|               | ::                                             | certificate |
-|               |                                                | with the    |
-|               |   {                                            | specified   |
-|               |     "status":"error",                          | hash exists.|
-|               |     "reason":"Certificate not found",          |             |
-|               |     "token":"HMAC-SHA256(secret,hash+nonce),   |             |
-|               |     "token-format": 1                          |             |
-|               |   }                                            |             |
-|               |                                                |             |
-+---------------+------------------------------------------------+-------------+
-| 400           |                                                | Indicates a |
-|               | ::                                             | malformed   |
-|               |                                                | request.    |
-|               |   {                                            |             |
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               | {                                              | request.    |
 |               |     "status":"error",                          |             |
 |               |     "reason":"Bad request"                     |             |
-|               |   }                                            |             |
+|               | }                                              |             |
 |               |                                                |             |
 +---------------+------------------------------------------------+-------------+
 
+certificate
+###########
+
+GET
++++
+
+Returns information about a certificate.
+
+Request
+-------
+
+**URL:** ``GET /certificates/<serial>``
+
++-----------+------------------------------------------------------------------+
+| Parameter | Description                                                      |
++===========+==================================================================+
+| apikey    | Your public API key.                                             |
++-----------+------------------------------------------------------------------+
+| serial    | The serial of the certificate being looked up.                   |
++-----------+------------------------------------------------------------------+
+| nonce     | A cryptographic nonce used to validate response hmac.            |
++-----------+------------------------------------------------------------------+
+| hmac      | ``hmac-sha256(secret_key, concatenate(nonce, serial)``           |
++-----------+------------------------------------------------------------------+
+
+Response
+--------
+
++---------------+------------------------------------------------+-------------+
+| Response Code | Response                                       | Description |
++===============+================================================+=============+
+| 200           |::                                              | The         |
+|               |                                                | data about  |
+|               | {                                              | the         |
+|               |     "status":"success",                        | certificate.|
+|               |     "certificate":{                            |             |
+|               |         "serial":serial,                       |             |
+|               |         "active":true or false,                |             |
+|               |         "valid_until":date,                    |             |
+|               |         "user":"GET /users/id",                |             |
+|               |     }                                          |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 401           |::                                              | Indicates   |
+|               |                                                | the user is |
+|               | {                                              | not         |
+|               |     "status":"error",                          | authorized  |
+|               |     "reason:" "Unauthorized"                   | to make this|
+|               | }                                              | request.    |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 404           |::                                              | Indicates   |
+|               |                                                | no such     |
+|               | {                                              | certificate |
+|               |     "status":"error",                          | exists.     |
+|               |     "reason":"No such user"                    |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
+| 400           |::                                              | Indicates a |
+|               |                                                | malformed   |
+|               | {                                              | request.    |
+|               |     "status":"error",                          |             |
+|               |     "reason":"Bad request"                     |             |
+|               | }                                              |             |
+|               |                                                |             |
++---------------+------------------------------------------------+-------------+
